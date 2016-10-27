@@ -1,8 +1,11 @@
+'use strict';
 /*
  *  Inserts "doc" into the collection "movies".
  */
 exports.insert = function(db, doc, callback) {
   // TODO: implement
+  let movies = db.collection('movies');
+  movies.insertOne(doc);
   callback(null);
 };
 
@@ -14,5 +17,13 @@ exports.insert = function(db, doc, callback) {
  */
 exports.byDirector = function(db, director, callback) {
   // TODO: implement
-  callback(null, []);
+  let movies = db.collection('movies')
+  movies.find({'director': director}).sort({'title':1}).toArray(function(err, docs){
+    if(err){
+      callback(err, null);
+      // return;
+    }
+    callback(null, docs);
+  });
+  
 };
